@@ -1,21 +1,49 @@
 <script setup lang="ts">
+import ProductLayout from '@/layout/ProductLayout.vue';
 
+import { onMounted, ref } from 'vue'
+import { useProductStore } from '../stores/product.store'
+import SearchBar from '@/components/atoms/SearchBar.vue';
+import Loading from '@/components/atoms/Loading.vue';
+import EmptyData from '@/components/atoms/EmptyData.vue';
+import ProductCard from '@/components/molecules/ProductCard.vue';
+
+const totalItem = ref<Number>(0)
+const productStore = useProductStore()
+const searchValue = ref<String>('')
+let skip = 0
+
+
+const handleInputChange = async () => {
+  console.log('chn');
+  await productStore.searchProducts(searchValue.value)
+}
+
+const fetchProductData = async () => {
+  await productStore.fetchProducts(skip)
+}
+
+onMounted(async () => {
+  await fetchProductData()
+})
 </script>
 
 <template>
-  <div class="flex flex-col rounded-2xl w-96 bg-white shadow-xl">
-    <figure class="flex justify-center items-center rounded-2xl">
-      <img src="https://tailwind-generator.b-cdn.net/images/card-generator/tailwind-card-generator-card-preview.png"
-        alt="Card Preview" class="rounded-t-2xl">
-    </figure>
-    <div class="flex flex-col p-8">
-      <div class="text-2xl font-bold   text-[#374151] pb-6">Generator</div>
-      <div class=" text-lg   text-[#374151]">Leverage a graphical editor to create beautiful web components.</div>
-      <div class="flex justify-end pt-6">
-        <button
-          class="bg-[#7e22ce] text-white  font-bold text-base  p-3 rounded-lg hover:bg-purple-800 active:scale-95 transition-transform transform">Try
-          it out!</button>
-      </div>
-    </div>
-  </div>
+  <ProductLayout>
+
+    <template #title>
+      <h1 class="text-center font-bold text-primary text-5xl">Burning Bros Store</h1>
+    </template>
+
+    <template #searchBar>
+      <SearchBar v-model="searchValue" placeholder="Search product..." @updateInput="handleInputChange" />
+    </template>
+
+    <template #productList>
+      <ProductCard :listsData="productStore.productList" />
+      <Loading v-if="productStore.isLoading && !productStore.isEmpty" text-message="Loading product..." />
+      <EmptyData v-if="productStore.isEmpty && productStore.totalItem === 0"
+        :message="`Oops! ${totalItem} product found for '${searchValue}'`" />
+    </template>
+  </ProductLayout>
 </template>
