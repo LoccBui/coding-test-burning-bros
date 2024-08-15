@@ -1,20 +1,57 @@
-# coding-test-burning-bros
+# Hi developers👋
 
-This template should help get you started developing with Vue 3 in Vite.
+- This repository will implement an infinite scrolling and searchable product list.
+- Demo: https://locbui-burning-bros-test.netlify.app/
 
-## Recommended IDE Setup
+## Table Of Contents
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Unit Testing](#unit-testing)
+- [Project Setup](#project-setup)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Tech Stack
 
-## Type Support for `.vue` Imports in TS
+-   **Vue3**
+-  **Vitest**
+-   **TailwindCSS**
+-   **Pinia**: Store library and state management framework for Vue.js.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Folder Structure
+Using atomic design pattern, more detail:
+-   **assets**: Contains static resources like images, styles, also fonts if needed
+-   **components**: 
+	- **_tests_**: Includes the unit test for currency
+	-  **atoms**: Includes smallest unit component, can’t be broken down further without losing their meaning
+	-  **molecules**: Combination of two or more atoms held together
+	- 	 **Icon**: Define the svg icon file
+-   **composables**: Includes the unit test for currency
+	-  toUSD: A custom functional to handle the display currency
+-   **layout**:  Layout definement for  consistent using purpose
+-   **router**:  Allows defining and managing routes.
+-    **types**: Type definements to accurate type information when you are coding
+- -  **views**:  Display the views components
 
-## Customize configuration
+## Unit Testing
+**Vitest**: I am using Vitest for unit testing. You can find the spec file test in **_tests** folder i mention above
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- **toUSD**:
+	- **Should format integer values as USD without cents** 
+		- (Ex: 1000 -> $1,000)
+	- **Should format decimal values as USD with two decimal places** 
+		- (Ex: 1000.5-> $1,000.50)
 
 ## Project Setup
+### Create a .env file in the root directory of project.
+- Add the following line to .env file:
+
+  
+```sh
+VITE_BASE_URI='https://dummyjson.com'
+```
+
+![image](https://github.com/user-attachments/assets/23b6b2d4-9406-4cc3-a679-355fd1c7c010)
+
+### Install Dependencies
 
 ```sh
 npm install
@@ -37,6 +74,8 @@ npm run build
 ```sh
 npm run test:unit
 ```
+
+
 
 ### Lint with [ESLint](https://eslint.org/)
 
