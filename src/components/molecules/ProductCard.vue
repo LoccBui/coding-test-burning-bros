@@ -24,7 +24,7 @@ const props = defineProps({
 <template>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         <div v-for="product in listsData" :key="product.id"
-            class="flex flex-col border hover:border-primary hover:shadow-oar rounded-2xl w-96 bg-white shadow-xl">
+            class="flex flex-col border hover:border-primary/50 hover:shadow-oar rounded-2xl w-80 lg:w-96 bg-white shadow-xl">
             <div class="flex justify-center items-center rounded-2xl">
                 <img :src="product.image" :alt="product.title" class="rounded-t-2xl" loading="lazy" />
             </div>

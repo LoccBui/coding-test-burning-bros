@@ -55,7 +55,7 @@ onMounted(async () => {
 <template>
   <ProductLayout>
     <template #title>
-      <h1 class="text-center font-bold text-primary text-5xl">Burning Bros Store</h1>
+      <h1 class="text-center font-bold text-primary text-3xl md:text-5xl">Burning Bros Store</h1>
     </template>
 
     <template #searchBar>

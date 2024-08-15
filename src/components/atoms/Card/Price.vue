@@ -10,6 +10,6 @@ const props = defineProps({
 </script>
 
 <template>
-    <span class="bg-primary/10 text-primary text-xs font-medium me-2 px-2.5 py-0.5 rounded w-fit">{{
+    <span class="bg-primary/10 text-primary text-xl font-medium me-2 px-2.5 py-0.5 rounded w-fit">{{
         toUSD(price) }}</span>
 </template>
