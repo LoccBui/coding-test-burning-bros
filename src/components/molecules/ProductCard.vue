@@ -1,7 +1,17 @@
 <script lang="ts" setup>
-import AtomsCardTitle from '@/components/atoms/Card/Title.vue'
-import AtomsCardDescription from '@/components/atoms/Card/Description.vue'
-import AtomsCardPrice from '@/components/atoms/Card/Price.vue'
+import { defineAsyncComponent } from 'vue'
+
+const AtomsCardTitle = defineAsyncComponent(() =>
+    import('@/components/atoms/Card/Title.vue')
+)
+
+const AtomsCardDescription = defineAsyncComponent(() =>
+    import('@/components/atoms/Card/Description.vue')
+)
+
+const AtomsCardPrice = defineAsyncComponent(() =>
+    import('@/components/atoms/Card/Price.vue')
+)
 
 const props = defineProps({
     listsData: {

@@ -1,22 +1,6 @@
 <script lang="ts" setup>
 import IconArrowUp from '../icons/IconArrowUp.vue';
-
 const emit = defineEmits(['goTop'])
-const btn = document.getElementsByClassName('scrolToTopButton')
-
-console.log(btn);
-
-window.onscroll = () => { scrollFunction() };
-
-const scrollFunction = () => {
-    console.log('123');
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 200) {
-        btn.style.display = "block";
-    } else {
-        btn.style.display = "none";
-    }
-}
-
 const scrolToTop = () => {
     emit('goTop')
 }

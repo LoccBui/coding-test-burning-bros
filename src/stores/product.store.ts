@@ -11,9 +11,10 @@ const normalizeProductFromResponse = (product: ProductType) => ({
 
 export const useProductStore = defineStore('product', {
   state: () => ({
-    productList: [],
+    productList: [] as ProductType[],
     isLoading: false,
     isEmpty: false,
+    isError: false,
     totalItem: 0
   }),
   getters: {},
@@ -24,22 +25,29 @@ export const useProductStore = defineStore('product', {
     setEmpty(value: boolean) {
       this.isEmpty = value
     },
-    async fetchProducts(skip?: number) {
+    async fetchProducts(skip?: number, keyword?: string) {
       try {
+        if (!isEmpty(keyword)) {
+          this.searchProducts(keyword as string)
+          return
+        }
+
         const baseUri = `${import.meta.env.VITE_BASE_URI}/products`
         this.setLoading(true)
+        this.isError = false
 
         const res = await fetch(`${baseUri}?limit=20&skip=${skip}`)
         const data = await res.json()
 
         if (size(data.products) > 0) {
-          const normalized = data.products.map((data: any) => normalizeProductFromResponse(data))
+          const normalized = data.products.map((data: ProductType) =>
+            normalizeProductFromResponse(data)
+          )
           this.productList.push(...normalized)
           this.setLoading(false)
         }
       } catch (error) {
-        this.setEmpty(true)
-        this.setLoading(false)
+        this.isError = true
       }
     },
 
@@ -47,13 +55,12 @@ export const useProductStore = defineStore('product', {
       try {
         const baseUri = `${import.meta.env.VITE_BASE_URI}/products`
         this.setLoading(true)
+        this.isError = false
 
         if (isEmpty(searchValue) && !searchValue) {
           this.setLoading(true)
           this.fetchProducts(10)
         }
-
-        this.productList = [] // reset
 
         const res = await fetch(
           `${baseUri}/search?limit=20&skip=0&select=title,price,images,thumbnail&q=${searchValue}`
@@ -62,15 +69,16 @@ export const useProductStore = defineStore('product', {
 
         if (size(data.products) > 0) {
           const normalized = data.products.map((data: any) => normalizeProductFromResponse(data))
-          this.productList = normalized
+          this.productList = [] // reset
           this.setLoading(false)
+          this.productList = normalized
         } else {
+          this.productList = data.products
           this.totalItem = data.total
           this.setEmpty(true)
         }
       } catch (error) {
-        this.setEmpty(true)
-        this.setLoading(false)
+        this.isError = true
       }
     }
   }
